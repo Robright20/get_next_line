@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 15:53:32 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/20 21:35:00 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/05/26 10:36:23 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,37 @@ ssize_t		findn(char *s, size_t n)
 	return (-1);
 }
 
-int			resize(t_openfile *f, size_t pos)
+ssize_t		fo_read(int fd, t_openfile *f, char **line)
 {
-	char	*tmp;
-	size_t	i;
+	char	buf[BUFF_SIZE];
+	ssize_t len;
+	ssize_t	r;
+	ssize_t	i;
 
-	i = 0;
-	f->n -= pos + 1;
-	if (f->n > 0)
+	len = f->n;
+	while ((r = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		if (!(tmp = (char*)ft_memdupz(f->s + pos + 1, f->n)))
-			return (-1);
-		ft_strdel(&(f->s));
-		f->s = tmp;
+		if (!((i = findn(buf, r)) == -1))
+		{
+			*line = (char*)ft_memjoin(*line, buf, len, i);
+			f->n = r - (i + 1);
+			ft_strdel(&(f->s));
+			f->s = (char*)ft_memdupz(buf + i + 1, f->n);
+			return (1);
+		}
+		*line = (char*)ft_memjoin(*line, buf, len, r);
+		len += r;
 	}
-	else if (f->n == 0)
-		ft_strdel(&(f->s));
-	return (f->n);
+	ft_strdel(&(f->s));
+	f->n = 0;
+	return (r);
 }
 
-int			chk_last(t_openfile *f, char **line)
+int			chk_last(int fd, t_openfile *f, char **line)
 {
+	ssize_t	r;
 	size_t	i;
+	char	*tmp;
 
 	i = 0;
 	while ((f->s)[i] != '\n' && i < f->n)
@@ -57,61 +66,29 @@ int			chk_last(t_openfile *f, char **line)
 	*line = (char*)ft_memdupz(f->s, i);
 	if (i < f->n)
 	{
-		resize(f, i);
+		if (!(tmp = (char*)ft_memdupz(f->s + i + 1, f->n)))
+			return (-1);
+		ft_strdel(&(f->s));
+		f->s = tmp;
+		f->n -= i + 1;
 		return (1);
 	}
-	return (0);
+	if ((r = fo_read(fd, f, line)) == -1)
+		return (-1);
+	return (1);
 }
 
 int			get_next_line(int fd, char **line)
 {
 	static t_openfile	f[64];
-	char				buf[BUFF_SIZE];
 	ssize_t				r;
-	ssize_t				i;
 
 	if (fd < 0 || BUFF_SIZE < 0 || !line)
 		return (-1);
-	if (fd > 0 && f[fd].fd == 0)
-		f[fd].fd = fd;
-	else if (fd >= 0 && f[fd].s)
-	{
-		if (chk_last(&f[fd], line))
-			return (1);
-		resize(f, f->n - 1);
-	}
-	while ((r = read(f[fd].fd, buf, BUFF_SIZE)) > 0)
-	{
-		if (!((i = findn(buf, r)) == -1))
-		{
-			*line = (char*)ft_memjoin(*line, buf, f[fd].n, i);
-			f[fd].n = r - (i + 1);
-			ft_strdel(&(f[fd].s));
-			return ((f[fd].s = (char*)ft_memdupz(buf + i + 1, f[fd].n)) != buf);
-		}
-		*line = (char*)ft_memjoin(*line, buf, f[fd].n, r);
-		f[fd].n += r;
-	}
+	*line = NULL;
+	if (f[fd].s && f[fd].n)
+		return (chk_last(fd, &f[fd], line));
+	if ((r = fo_read(fd, &f[fd], line)) == 0)
+		return (f[fd].n == 0 && *line);
 	return (r);
-}
-
-int			main(int argc, char **argv)
-{
-	int		fd2;
-	char	*line;
-	int		i;
-
-	line = NULL;
-	i = 1;
-
-	//fd2 = open(argv[1], O_RDONLY);
-	fd2 = 0;
-	while (get_next_line(fd2, &line))
-	{
-		printf("line %s\n", line);
-		ft_strdel(&line);
-		i++;
-	}
-	close(fd2);
-	return (0);
 }

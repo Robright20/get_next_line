@@ -6,13 +6,13 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 15:55:41 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/20 08:43:27 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/05/25 06:19:40 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _GET_NEXT_LINE_H
 # define _GET_NEXT_LINE_H
-# define BUFF_SIZE 5
+# define BUFF_SIZE 2
 # include "libft/libft.h"
 # include <sys/types.h>
 # include <sys/uio.h>
@@ -24,7 +24,6 @@ typedef struct s_openfile	t_openfile;
 
 struct	s_openfile
 {
-	int		fd;
 	char	*s;
 	size_t	n;
 };

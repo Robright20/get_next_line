@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 21:50:32 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/17 05:16:55 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/05/21 21:58:28 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ void	*ft_realloc(void *ptr, size_t oldsize, size_t newsize)
 	else if (!ptr)
 		return (ft_memalloc(newsize));
 	else if (newsize <= oldsize)
-	{
-		p = ft_memdup(ptr, newsize);
-		ft_memdel(&ptr);
-		return (p);
-	}
+		return (ptr);
 	else
 	{
 		p = malloc(newsize);
