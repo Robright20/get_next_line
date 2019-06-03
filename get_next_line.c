@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 15:53:32 by fokrober          #+#    #+#             */
-/*   Updated: 2019/06/03 04:42:49 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/06/03 05:51:37 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			chk_last(int fd, t_string *f, char **line)
 
 int			get_next_line(int fd, char **line)
 {
-	static t_string		f[4864];
+	static t_string		f[MAX_FD];
 	ssize_t				r;
 
 	if (fd < 0 || BUFF_SIZE < 0 || !line)

@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:09:29 by fokrober          #+#    #+#             */
-/*   Updated: 2019/06/02 22:42:34 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/06/03 05:33:48 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 # include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <fcntl.h>
+
 # define MIN_INT -2147483648
 # define MAX_INT 2147483647
 
