@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 14:09:29 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/20 03:41:48 by fokrober         ###   ########.fr       */
+/*   Updated: 2019/06/02 22:42:34 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@
 # define MAX_INT 2147483647
 
 typedef struct s_list	t_list;
+typedef struct s_string	t_string;
 
 struct	s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
+};
+struct	s_string
+{
+	char	*s;
+	size_t	size;
 };
 void	ft_putchar(char c);
 void	ft_putnbr(int n);
@@ -103,4 +109,5 @@ t_list	*ft_lstpush(t_list *elm, t_list *new);
 void	*ft_memdupz(void const *src, size_t n);
 void	*ft_memjoin(void *s1, void const *s2,
 		size_t s_size, size_t b_size);
+ssize_t	ft_memichr(const void *s, int c, size_t n);
 #endif
