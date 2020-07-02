@@ -16,10 +16,12 @@ void	ft_putendl(char const *str)
 {
 	int i;
 
-	i = -1;
 	if (str)
 	{
-		ft_putstr(str);
-		ft_putchar('\n');
+		i = 0;
+		while (str[i])
+			i++;
+		write(1, str, i);
+		write(1, "\n", 1);
 	}
 }

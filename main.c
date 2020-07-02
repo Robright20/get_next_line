@@ -29,16 +29,16 @@ int		main(int ac, char **av)
 	char	*line;
 	int		ret;
 
-	(void)ac;
-	(void)av;
-//	fd = open(av[1], O_RDONLY);
-	fd = 10000000;
+	fd = 0;
+	if (ac == 2)
+		fd = open(av[1], O_RDONLY);
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		printf("%s\n", line);
 		ft_strdel(&line);
 	}
 	printf("ret : %d\n", ret);
-	//close(fd);
+	if (fd)
+		close(fd);
 	return (0);
 }
