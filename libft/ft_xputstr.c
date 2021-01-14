@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_xputstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fokrober <fokrober@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 02:33:31 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/04 19:14:20 by nkhribec         ###   ########.fr       */
+/*   Created: 2020/12/26 07:31:39 by fokrober          #+#    #+#             */
+/*   Updated: 2020/12/26 07:31:56 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
-{
-	int i;
+#include <unistd.h>
 
-	if (s && f)
-	{
-		i = 0;
-		while (*s)
-		{
-			f(i, s);
-			s++;
-			i++;
-		}
-	}
+size_t	ft_xputstr(char const *str)
+{
+	size_t	size;
+
+	if (!str)
+		return (0);
+	size = 0;
+	while (str[size])
+		size++;
+	(void)(size && write(1, str, size));
+	return (size);
 }

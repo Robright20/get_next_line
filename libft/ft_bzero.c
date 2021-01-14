@@ -6,14 +6,17 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 04:48:36 by fokrober          #+#    #+#             */
-/*   Updated: 2019/04/08 21:57:54 by fokrober         ###   ########.fr       */
+/*   Updated: 2020/12/24 09:22:31 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	ft_bzero(void *s, size_t n)
 {
-	if (n)
-		ft_memset(s, 0, n);
+	size_t	i;
+
+	i = -1;
+	while (++i < n)
+		*((char*)s + i) = 0;
 }

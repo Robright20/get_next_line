@@ -6,17 +6,20 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 23:35:05 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/04 15:41:35 by nkhribec         ###   ########.fr       */
+/*   Updated: 2020/12/23 12:15:12 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
 int		ft_strnequ(char const *s1, char const *s2, size_t n)
 {
-	if (!s1 || !s2)
+	int		i;
+
+	i = 0;
+	if (n == 0 || !s1 || !s2)
 		return (0);
-	if (!(ft_strncmp(s1, s2, n)))
-		return (1);
-	return (0);
+	while (s1[i] && s1[i] == s2[i] && --n)
+		i++;
+	return (!((unsigned char)s1[i] - (unsigned char)s2[i]));
 }

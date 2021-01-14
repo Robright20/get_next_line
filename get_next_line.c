@@ -3,79 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/07 15:53:32 by fokrober          #+#    #+#             */
-/*   Updated: 2019/06/03 05:51:37 by fokrober         ###   ########.fr       */
+/*   Created: 2021/01/03 11:21:04 by fokrober          #+#    #+#             */
+/*   Updated: 2021/01/13 20:04:35 by bob              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+// #include "buffer.h"
 
-ssize_t		readline(int fd, t_string *f, char **line)
+/*
+**	The get_next_line function reads a line from a file descriptor(fd), deli-
+**	mited by '\n'.
+**	The caller provides a pointer's address(**line). A buffer will be
+**	allocated and used to try to read a line ending with '\n'. Or it will
+**	be reallocated otherwise.
+**
+**	Returns: 1 is a line was read, 0 if reach EOF and -1 if
+**		-  (fd < 0 || BUFF_SIZE < 0 || fd > FD_MAX || line == NULL)
+**		- read has failed
+**
+**	Bugs: always free the space *line coz it's always allocated.
+*/
+
+// #include <stdio.h>
+
+int				get_next_line(const int fd, char **line)
 {
-	char	buf[BUFF_SIZE];
-	char	*tmp;
-	ssize_t	r;
-	ssize_t	i;
+	static t_buffer	prev[MAX_FD];
+	t_buffer		cur;
+	int				ret;
 
-	while ((r = read(fd, buf, BUFF_SIZE)) > 0)
+	if (read(fd, NULL, 0) != 0 || BUFF_SIZE < 0 || !line)
+		return (-1);
+	buf_set(&cur, NULL, 0, 0);
+	while (1)
 	{
-		if ((i = ft_memichr(buf, '\n', (size_t)r)) != -1)
+		if (!prev[fd].ptr)
 		{
-			tmp = (char*)ft_memjoin(*line, buf, f->size, (size_t)i);
-			ft_strdel(line);
-			*line = tmp;
-			f->size = (size_t)(r - (i + 1));
-			ft_strdel(&(f->s));
-			f->s = (char*)ft_memdupz(buf + i + 1, f->size);
-			return (1);
+			*line = (char*)buf_realloc(&cur, cur.size + BUFF_SIZE);
+			if ((ret = read(fd, *line + cur.size, BUFF_SIZE)) <= 0)
+				return (ret == 0 ? (cur.size > 0) : ret);
+			cur.size += ret;
 		}
-		tmp = (char*)ft_memjoin(*line, buf, f->size, (size_t)r);
-		ft_strdel(line);
-		*line = tmp;
-		f->size += (size_t)r;
+		else if (!buf_set(&cur, prev[fd].ptr, prev[fd].size, 0))
+			buf_set(prev + fd, NULL, 0, 0);
+		*line = (char*)cur.ptr;
+		if ((cur.pos = index_of(cur.ptr, '\n', cur.size)) >= 0)
+			return (((*line)[cur.pos] = '\0') || \
+				!buf_dup(prev + fd, &cur, cur.pos));
 	}
-	ft_strdel(&(f->s));
-	f->size = 0;
-	return (r);
-}
-
-int			chk_last(int fd, t_string *f, char **line)
-{
-	ssize_t	r;
-	size_t	i;
-	char	*tmp;
-
-	i = 0;
-	while ((f->s)[i] != '\n' && i < f->size)
-		i++;
-	*line = (char*)ft_memdupz(f->s, i);
-	if (i < f->size)
-	{
-		if (!(tmp = (char*)ft_memdupz(f->s + i + 1, f->size)))
-			return (-1);
-		ft_strdel(&(f->s));
-		f->s = tmp;
-		f->size -= i + 1;
-		return (1);
-	}
-	if ((r = readline(fd, f, line)) == -1)
-		return (-1);
-	return (1);
-}
-
-int			get_next_line(int fd, char **line)
-{
-	static t_string		f[MAX_FD];
-	ssize_t				r;
-
-	if (fd < 0 || BUFF_SIZE < 0 || !line)
-		return (-1);
-	*line = NULL;
-	if (f[fd].s && f[fd].size)
-		return (chk_last(fd, &f[fd], line));
-	if ((r = readline(fd, &f[fd], line)) == 0)
-		return (f[fd].size == 0 && *line);
-	return (r);
+	return (!!ret);
 }

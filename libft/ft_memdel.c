@@ -6,15 +6,15 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 00:42:36 by fokrober          #+#    #+#             */
-/*   Updated: 2019/06/03 01:59:30 by fokrober         ###   ########.fr       */
+/*   Updated: 2020/12/24 10:23:39 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
 void	ft_memdel(void **ap)
 {
-	if (ap && *ap)
+	if (ap)
 	{
 		free(*ap);
 		*ap = NULL;

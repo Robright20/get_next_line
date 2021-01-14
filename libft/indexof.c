@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   indexof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 18:25:21 by fokrober          #+#    #+#             */
-/*   Updated: 2021/01/05 20:02:44 by bob              ###   ########.fr       */
+/*   Created: 2021/01/11 04:48:06 by bob               #+#    #+#             */
+/*   Updated: 2021/01/11 05:10:29 by bob              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <sys/types.h>
 
-void	*ft_memalloc(size_t size)
+ssize_t	index_of(void *str, int c, size_t size)
 {
-	void	*ptr;
+	unsigned char	*haystack;
+	size_t			i;
 
-	if ((ptr = malloc(size)))
+	haystack = (unsigned char*)str;
+	if (!haystack)
+		return (-1);
+	i = 0;
+	while (haystack[i] && i < size)
 	{
-		while (size--)
-			((char*)ptr)[size] = (unsigned char)0;
+		if (haystack[i] == (unsigned char)c)
+			return (i);
+		i++;
 	}
-	return (ptr);
+	if (haystack[i] == (unsigned char)c)
+		return (i);
+	return (-1);
 }

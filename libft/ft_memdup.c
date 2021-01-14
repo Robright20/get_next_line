@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/03 00:50:51 by fokrober          #+#    #+#             */
-/*   Updated: 2019/05/20 03:12:02 by fokrober         ###   ########.fr       */
+/*   Created: 2021/01/04 17:19:20 by bob               #+#    #+#             */
+/*   Updated: 2021/01/13 09:54:39 by bob              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-void	*ft_memdup(const void *src, size_t n)
+void		*ft_memdup(void const *ptr, size_t size)
 {
-	void	*tmp;
+	void	*result;
+	size_t	i;
 
-	if (n && (tmp = malloc(n)))
-		return (ft_memcpy(tmp, src, n));
-	return (NULL);
+	if (!size || !ptr)
+		return (NULL);
+	result = malloc(size);
+	i = -1;
+	while (++i < size)
+		((unsigned char*)result)[i] = ((unsigned char*)ptr)[i];
+	return (result);
 }
