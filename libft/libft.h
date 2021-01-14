@@ -6,7 +6,7 @@
 /*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:32:55 by mzaboub           #+#    #+#             */
-/*   Updated: 2021/01/11 18:57:45 by bob              ###   ########.fr       */
+/*   Updated: 2021/01/14 09:35:25 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define LIBFT_H
 # define MIN_INT -2147483648
 # define MAX_INT 2147483647
-// # define MAX_FD 4864
-// # define BUFF_SIZE 20
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -122,6 +120,5 @@ char			**ft_push_str(char **tab, char *s);
 size_t			ft_nbrlen(int n);
 size_t			ft_xputstr(char const *str);
 void			print_memory(const void *addr, size_t size);
-// int				get_next_line(const int fd, char **line);
 ssize_t			index_of(void *str, int c, size_t size);
 #endif

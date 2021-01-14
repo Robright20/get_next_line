@@ -6,12 +6,11 @@
 /*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:21:04 by fokrober          #+#    #+#             */
-/*   Updated: 2021/01/13 20:04:35 by bob              ###   ########.fr       */
+/*   Updated: 2021/01/14 09:33:05 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-// #include "buffer.h"
 
 /*
 **	The get_next_line function reads a line from a file descriptor(fd), deli-
@@ -26,8 +25,6 @@
 **
 **	Bugs: always free the space *line coz it's always allocated.
 */
-
-// #include <stdio.h>
 
 int				get_next_line(const int fd, char **line)
 {

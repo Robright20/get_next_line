@@ -6,12 +6,11 @@
 /*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:09:43 by bob               #+#    #+#             */
-/*   Updated: 2021/01/13 19:28:30 by bob              ###   ########.fr       */
+/*   Updated: 2021/01/14 09:33:35 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buffer.h"
-#include <stdio.h>
 
 int		reset_buffer(t_buffer *buf)
 {
