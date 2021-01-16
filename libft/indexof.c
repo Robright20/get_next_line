@@ -6,7 +6,7 @@
 /*   By: bob <bob@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:48:06 by bob               #+#    #+#             */
-/*   Updated: 2021/01/14 11:15:09 by fokrober         ###   ########.fr       */
+/*   Updated: 2021/01/16 16:18:30 by fokrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 ssize_t	index_of(void *str, int c, size_t size)
 {
-	unsigned char	*haystack;
-	size_t			i;
+	size_t	i;
 
-	haystack = (unsigned char*)str;
-	if (!haystack)
+	if (!str)
 		return (-1);
 	i = 0;
-	while (haystack[i] && i < size)
+	while (i < size)
 	{
-		if (haystack[i] == (unsigned char)c)
+		if (((unsigned char*)str)[i] == (unsigned char)c)
 			return (i);
 		i++;
 	}
-	if (haystack[i] == (unsigned char)c)
-		return (i);
 	return (-1);
 }
